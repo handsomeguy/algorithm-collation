@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>asd</title>
+</head>
+
+<body>
+    <div class="asd">asdasdas</div>
+    <script type="text/javascript">
+        function HasSubtree(pRoot1, pRoot2) {
+            if (pRoot1 == null || pRoot2 == null) {
+                return false;
+            }
+            if (isSubTree(pRoot1, pRoot2)) {
+                return true;
+            } else {
+                return HasSubtree(pRoot1.left, pRoot2) || HasSubtree(pRoot1.right, pRoot2);
+            }
+
+            function isSubTree(pRoot1, pRoot2) {
+                if (pRoot2 == null) return true;
+                if (pRoot1 == null) return false;
+                if (pRoot1.val === pRoot2.val) {
+                    return isSubTree(pRoot1.left, pRoot2.left) && isSubTree(pRoot1.right, pRoot2.right);
+                } else {
+                    return false;
+                }
+            }
+        }
+    </script>
+    <script type="text/javascript" src='./test.js'></script>
+</body>
+
+</html>
