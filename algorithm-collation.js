@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-03 20:16:48
+ * @Last Modified time: 2018-03-04 12:12:56
  */
 
 /**
@@ -46,3 +46,133 @@ function HasSubtree(pRoot1, pRoot2) {
         }
     }
 }
+
+
+
+
+/**
+ * 查找两个链表的公共交点，如果没有公共交点返回空
+ * @param {linkClass} linkOne 链表一
+ * @param {linkClass} linkTwo 链表二
+ */
+function findFirstPublicNode(linkOne, linkTwo) {
+
+    // 直接判断尾节点是否相同
+    if (linkOne.getTail() !== linkTwo.getTail()) {
+        return false;
+    }
+    if (linkOne.length > linkTwo.length) {
+        return traverseSync(linkOne, linkTwo);
+    } else {
+        return traverseSync(linkTwo, linkOne);
+    }
+
+    function traverseSync(linkLong, linkShort) {
+        var step = linkLong.length - linkShort.length;
+        var pointerOne = linkLong.head;
+        var pointerTwo = linkShort.head;
+        for (let index = 0; index < step; index++) {
+            pointerOne = pointerOne.next;
+        }
+        while (pointerOne !== pointerTwo) {
+            pointerOne = pointerOne.next;
+            pointerTwo = pointerTwo.next;
+        }
+        return pointerOne;
+    }
+
+
+}
+
+/**
+ * 节点类，每个节点包含自己的value值以及指向下一个节点的指针
+ * @param {number} val 
+ */
+function node(val) {
+    this.val = val;
+    this.next = null;
+}
+/**
+ * 链表类，存储链表信息，以及头尾节点
+ */
+function linkClass() {
+    this.head = null;
+    this.length = 0;
+    this.tail = null;
+}
+linkClass.prototype.push = function(node) {
+    if (this.length == 0) {
+        this.head = node;
+    } else {
+        this.tail.next = node;
+    }
+    this.tail = node;
+    this.length++;
+}
+linkClass.prototype.getTail = function() {
+    return this.tail;
+}
+linkClass.prototype.getHead = function() {
+    return this.head;
+}
+
+
+/**
+ * 随机生成一条链表
+ * 根据题目要求需要生成两条链表使得他们香蕉\
+ * @param {number} len 
+ */
+function makeRamdomLink(len) {
+    var linkInstance = new linkClass();
+    var newNode = null;
+    for (let index = 0; index < len; index++) {
+        newNode = new node(getVal());
+        linkInstance.push(newNode);
+    }
+    return linkInstance;
+}
+
+
+/**
+ * 随机生成0-100的正整数
+ * @returns number 
+ */
+function getVal() {
+    return parseInt(Math.random() * 100);
+}
+
+
+/**
+ * 生成两条相交的链表，通过生成三条链表
+ * 将两条链表尾部指针指向同一个链表头 实现两个链表相交
+ * @param {any} params 
+ * @returns 
+ */
+function makeTwoIntersectLink() {
+    var linkOne = makeRamdomLink(5);
+    var linkTwo = makeRamdomLink(15);
+    var linkPublic = makeRamdomLink(10);
+    var head = linkPublic.getHead();
+    var tailOne = linkOne.getTail();
+    var tailTwo = linkTwo.getTail();
+    tailOne.next = head;
+    tailTwo.next = head;
+    // 长度增长
+    linkOne.length += linkPublic.length;
+    linkTwo.length += linkPublic.length;
+    // 尾部一致
+    linkOne.tail = linkPublic.getTail();
+    linkTwo.tail = linkPublic.getTail();
+    return {
+        linkOne: linkOne,
+        linkTwo: linkTwo
+    }
+}
+
+
+// 测试算法所调用的代码
+(function() {
+    var testObj = makeTwoIntersectLink();
+    var node = findFirstPublicNode(testObj.linkOne, testObj.linkTwo);
+    console.log(node)
+})()
