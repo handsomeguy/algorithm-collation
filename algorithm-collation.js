@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-04 12:12:56
+ * @Last Modified time: 2018-03-05 13:20:29
  */
 
 /**
@@ -175,4 +175,34 @@ function makeTwoIntersectLink() {
     var testObj = makeTwoIntersectLink();
     var node = findFirstPublicNode(testObj.linkOne, testObj.linkTwo);
     console.log(node)
+})()
+
+
+
+/**
+ * 重建二叉树，利用递归的方式，只关注输入和输出，不care内部过程
+ * 巧妙的利用递归，把复杂的问题简单化
+ * @param {nodearr} pre 
+ * @param {nodearr} vin 
+ * @returns 
+ */
+function rebuildTree(pre, vin) {
+
+    // 特殊判断
+    if (pre.length == 0 || vin.length == 0) {
+        return null;
+    }
+    var val = pre[0];
+    var index = vin.indexOf(val);
+    return {
+        val: val,
+        leftChild: rebuildTree(pre.slice(1, index + 1), vin.slice(0, index)),
+        rightChild: rebuildTree(pre.slice(index + 1), vin.slice(index + 1))
+    }
+}
+
+// 测试代码
+(function() {
+    var tree = rebuildTree([1, 2, 4, 7, 3, 5, 6, 8], [4, 7, 2, 1, 5, 3, 8, 6]);
+    console.log(tree);
 })()
