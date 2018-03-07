@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-07 14:08:39
+ * @Last Modified time: 2018-03-07 14:11:14
  */
 
 /**
@@ -133,17 +133,21 @@ function makeRamdomLink(len) {
 }
 
 function handleLink(link) {
-    var dockingPos = null;
-    var newNode = new node(null);
-    newNode.next = link.head;
     if (link.head == null) {
         return null;
     }
-
+    // 空节点 作为首个对接位节点
+    var dockingPos = null;
+    var newNode = new node(null);
+    newNode.next = link.head;
     dockingPos = newNode;
+
+    // 遍历信息初始化
     traversePos = link.head.next;
     var flag = link.head.val;
     var death = 0;
+
+    // 迭代判断simida
     while (traversePos !== null) {
         if (traversePos.val !== flag) {
             if (death == 0) {
