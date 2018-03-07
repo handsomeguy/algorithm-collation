@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-05 13:20:29
+ * @Last Modified time: 2018-03-07 14:08:39
  */
 
 /**
@@ -132,6 +132,56 @@ function makeRamdomLink(len) {
     return linkInstance;
 }
 
+function handleLink(link) {
+    var dockingPos = null;
+    var newNode = new node(null);
+    newNode.next = link.head;
+    if (link.head == null) {
+        return null;
+    }
+
+    dockingPos = newNode;
+    traversePos = link.head.next;
+    var flag = link.head.val;
+    var death = 0;
+    while (traversePos !== null) {
+        if (traversePos.val !== flag) {
+            if (death == 0) {
+                flag = traversePos.val;
+                dockingPos = dockingPos.next;
+                traversePos = traversePos.next;
+            } else {
+                death = 0;
+                flag = traversePos.val;
+                traversePos = traversePos.next;
+            }
+        } else {
+            death = 1;
+            dockingPos.next = traversePos.next;
+            traversePos = traversePos.next;
+        }
+    }
+
+    return newNode.next;
+
+}
+
+function makeOrderlyLink() {
+    var linkInstance = new linkClass();
+    var newNode = null;
+    newNode = new node(1);
+    linkInstance.push(newNode);
+    newNode = new node(1);
+    linkInstance.push(newNode);
+    newNode = new node(1);
+    linkInstance.push(newNode);
+    newNode = new node(4);
+    linkInstance.push(newNode);
+    newNode = new node(4);
+    linkInstance.push(newNode);
+    return linkInstance;
+}
+
 
 /**
  * 随机生成0-100的正整数
@@ -170,11 +220,21 @@ function makeTwoIntersectLink() {
 }
 
 
+
 // 测试算法所调用的代码
 (function() {
-    var testObj = makeTwoIntersectLink();
-    var node = findFirstPublicNode(testObj.linkOne, testObj.linkTwo);
-    console.log(node)
+
+    // 设置一个有序链表
+    // 删除链表中的重复项
+    // 例如1224 输出14  又13566输出135
+    var link = makeOrderlyLink();
+    var link2 = handleLink(link);
+    console.log(link2);
+
+
+    // var testObj = makeTwoIntersectLink();
+    // var node = findFirstPublicNode(testObj.linkOne, testObj.linkTwo);
+    // console.log(node)
 })()
 
 
@@ -202,7 +262,7 @@ function rebuildTree(pre, vin) {
 }
 
 // 测试代码
-(function() {
-    var tree = rebuildTree([1, 2, 4, 7, 3, 5, 6, 8], [4, 7, 2, 1, 5, 3, 8, 6]);
-    console.log(tree);
-})()
+// (function() {
+//     var tree = rebuildTree([1, 2, 4, 7, 3, 5, 6, 8], [4, 7, 2, 1, 5, 3, 8, 6]);
+//     console.log(tree);
+// })()
