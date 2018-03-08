@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-08 16:15:42
+ * @Last Modified time: 2018-03-08 21:44:25
  */
 
 /**
@@ -328,4 +328,75 @@ function runCounting(n) {
     console.log('length equals 10:' + runCounting(10));
     console.log('length equals 11:' + runCounting(11));
     console.log('length equals 12:' + runCounting(12));
+})()
+
+
+
+// 初始化堆
+/**
+ * 初始化堆结构 利用数组来存值
+ * 从第一个非叶子节点开始调整 调整的过程是和子节点比较
+ * @param {array} arr 
+ * @returns 
+ */
+function initHeapConstruction(arr) {
+    arr.unshift(0);
+    var len = arr.length - 1;
+    var st_index = Math.floor(len / 2);
+    for (let index = st_index; index >= 1; index--) {
+        flowNode(index, arr);
+    }
+    return arr;
+}
+
+/**
+ * 对某个节点进行调整操作，从上往下flow
+ * 和该节点的两个子节点比较，因为是大顶堆，所以是和较大值交换值
+ * @param {number} index 
+ * @param {array} arr 
+ * @returns 
+ */
+function flowNode(index, arr) {
+    var left = index * 2;
+    var right = index * 2 + 1;
+    var bigger = arr[left] > arr[right] ? left : right;
+    var temp;
+    if (arr[index] < arr[bigger]) {
+        temp = arr[index];
+        arr[index] = arr[bigger];
+        arr[bigger] = temp;
+        flowNode(bigger, arr);
+    }
+    return;
+}
+/**
+ * 处理arr 数组中的数据，查找其中最大的number个数
+ * @param {array} arr 
+ * @param {number} number 
+ * @returns 
+ */
+function handleMoreData(arr, number) {
+    var heap = initHeapConstruction(arr.slice(0, number));
+    var arr2 = arr.slice(number);
+    var len = arr2.length;
+    for (let index = 0; index < len; index++) {
+        if (arr2[index] < heap[1]) {
+            heap[1] = arr2[index];
+            flowNode(1, heap);
+        }
+    }
+    return heap;
+}
+
+
+// 测试堆代码
+(function() {
+    console.log('Find the maximum number of five :')
+    var a = handleMoreData([2, 4, 5, 6, 7, 5, 16, 7, 8, 2, 1, 5, 8, 7, 8, 1, 3, 6, 0, 1, 8, 9, 9], 5);
+    console.log(a.slice(1));
+    // 利用排序来验证
+    // console.log([2, 4, 5, 6, 7, 5, 16, 7, 8, 2, 1, 5, 8, 7, 8, 1, 3, 6, 0, 1, 8, 9, 9].sort(function(b, a) {
+    //     return b - a;
+    // }).slice(0, 5))
+
 })()
