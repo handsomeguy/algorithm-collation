@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-07 14:11:14
+ * @Last Modified time: 2018-03-08 16:15:42
  */
 
 /**
@@ -270,3 +270,62 @@ function rebuildTree(pre, vin) {
 //     var tree = rebuildTree([1, 2, 4, 7, 3, 5, 6, 8], [4, 7, 2, 1, 5, 3, 8, 6]);
 //     console.log(tree);
 // })()
+
+
+
+// 借住动态规划的思想
+// 利用递归+缓存 实现算法
+
+/**
+ * 计算如何切割钢筋可以达到最大价值
+ * 通过分治的思想，把fn定义为f(n-1)+最后一割
+ * 注意 递归算法，只关注输入和输出，充分利用分治，简化过程代码
+ * @param {array} p 价格表
+ * @param {number} n 钢筋的长度
+ * @param {array} r 缓存数据的数组
+ * @returns 
+ */
+function countMaxPrice(p, n, r) {
+    if (n <= 0) {
+        return 0;
+    }
+    if (r[n] >= 0) {
+        return r[n];
+    }
+    var max = 0;
+    for (let i = 1; i <= 10; i++) {
+        if (n - i < 0) {
+            break;
+        }
+        max = Math.max(max, p[i] + countMaxPrice(p, n - i, r));
+    }
+    r[n] = max;
+    return max;
+}
+
+function runCounting(n) {
+    var p = [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30];
+    var r = [-1];
+
+    for (let index = 1; index <= n; index++) {
+        r[index] = -1;
+    }
+    return countMaxPrice(p, n, r);
+}
+
+// 切钢筋问题代码测试
+(function() {
+    console.log('max price:\n');
+    console.log('length equals 1:' + runCounting(1));
+    console.log('length equals 2:' + runCounting(2));
+    console.log('length equals 3:' + runCounting(3));
+    console.log('length equals 4:' + runCounting(4));
+    console.log('length equals 5:' + runCounting(5));
+    console.log('length equals 6:' + runCounting(6));
+    console.log('length equals 7:' + runCounting(7));
+    console.log('length equals 8:' + runCounting(8));
+    console.log('length equals 9:' + runCounting(9));
+    console.log('length equals 10:' + runCounting(10));
+    console.log('length equals 11:' + runCounting(11));
+    console.log('length equals 12:' + runCounting(12));
+})()

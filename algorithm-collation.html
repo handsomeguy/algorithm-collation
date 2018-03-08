@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <div class="hello">this is a test page,please press <span class="color">F12</span> to check the result in the console</div>
+    <div class="hello" onclick="tryCatch(event)">this is a test page,please press <span class="color">F12</span> to check the result in the console</div>
     <script type="text/javascript">
         function HasSubtree(pRoot1, pRoot2) {
             if (pRoot1 == null || pRoot2 == null) {
@@ -41,6 +41,11 @@
         }
     </script>
     <script type="text/javascript" src='./algorithm-collation.js'></script>
+    <script>
+        function tryCatch(e) {
+            console.log(this);
+        }
+    </script>
 </body>
 
 </html>
