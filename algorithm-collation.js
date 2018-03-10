@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-10 16:33:46
+ * @Last Modified time: 2018-03-10 16:36:12
  */
 
 /**
@@ -540,6 +540,7 @@ function reverseSentence(str) {
     return words.join(' ')
 }
 
+// 测试代码
 (function() {
     console.log('reverse sentence:');
     var a = reverseSentence('ni hao ma hahah');
