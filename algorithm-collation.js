@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-08 21:44:25
+ * @Last Modified time: 2018-03-10 16:33:46
  */
 
 /**
@@ -390,13 +390,169 @@ function handleMoreData(arr, number) {
 
 
 // 测试堆代码
-(function() {
-    console.log('Find the maximum number of five :')
-    var a = handleMoreData([2, 4, 5, 6, 7, 5, 16, 7, 8, 2, 1, 5, 8, 7, 8, 1, 3, 6, 0, 1, 8, 9, 9], 5);
-    console.log(a.slice(1));
-    // 利用排序来验证
-    // console.log([2, 4, 5, 6, 7, 5, 16, 7, 8, 2, 1, 5, 8, 7, 8, 1, 3, 6, 0, 1, 8, 9, 9].sort(function(b, a) {
-    //     return b - a;
-    // }).slice(0, 5))
+// (function() {
+//     console.log('Find the maximum number of five :')
+//     var a = handleMoreData([2, 4, 5, 6, 7, 5, 16, 7, 8, 2, 1, 5, 8, 7, 8, 1, 3, 6, 0, 1, 8, 9, 9], 5);
+//     console.log(a.slice(1));
+// 利用排序来验证
+// console.log([2, 4, 5, 6, 7, 5, 16, 7, 8, 2, 1, 5, 8, 7, 8, 1, 3, 6, 0, 1, 8, 9, 9].sort(function(b, a) {
+//     return b - a;
+// }).slice(0, 5))
 
+// })()
+
+
+
+
+// 判断文件之间是否存在循环依赖
+/**
+ * 判断文件数组中是否存在循环依赖
+ * 如果存在返回false，不存在返回true
+ * @param {fileArray} fileArr 
+ * egg:[{
+        name: 'file1',
+        dependencies: ['file2', 'file3']
+    }]
+ * @returns 
+ */
+function checkCyclicDependence(fileArr) {
+
+    var nodeHash = {};
+    var quickObj = {};
+    fileArr.forEach(function(obj, i) {
+        quickObj[obj.name] = obj.dependencies;
+    })
+
+    // 初始化节点值
+    fileArr.forEach(function(obj, i) {
+        if (nodeHash[obj.name] == undefined) {
+            nodeHash[obj.name] = 0;
+        }
+    })
+
+    // 节点值计数
+    fileArr.forEach(function(obj, i) {
+
+        obj.dependencies.forEach(function(dep, i) {
+            if (nodeHash[dep] == undefined) {
+                nodeHash[dep] = 1;
+            } else {
+                nodeHash[dep]++;
+            }
+        })
+
+    })
+
+    // 逐个删除节点 拓扑排序
+    var flag = false;
+
+    function checkMatchCondition(nodeHash) {
+        var flag = false;
+        for (let p in nodeHash) {
+            if (nodeHash[p] == 0) {
+                flag = true;
+                return true;
+            }
+        }
+        return flag;
+    }
+    while (checkMatchCondition(nodeHash)) {
+        for (let p in nodeHash) {
+            if (nodeHash[p] == 0) {
+                quickObj[p].forEach(function(file, i) {
+                    nodeHash[file]--;
+                })
+                nodeHash[p] = -1;
+                return true;
+            }
+        }
+    }
+
+    function checkAllMatch(nodeHash) {
+        var flag = true;
+        for (let p in nodeHash) {
+            if (nodeHash[p] != -1) {
+                flag = false;
+                return false;
+            }
+        }
+        return flag;
+    }
+    return checkAllMatch(nodeHash);
+
+
+}
+
+// 测试循环依赖代码
+// (function() {
+//     console.log('判断是否循环依赖：')
+//     console.log(
+//         checkCyclicDependence([{
+//                 name: 'file1',
+//                 dependencies: ['file2', 'file3']
+//             },
+//             {
+//                 name: 'file2',
+//                 dependencies: []
+//             },
+//             {
+//                 name: 'file3',
+//                 dependencies: ['file2']
+//             }
+//         ])
+//     )
+//     console.log('判断是否循环依赖：')
+//     console.log(
+//         checkCyclicDependence([{
+//                 name: 'file1',
+//                 dependencies: ['file2', 'file3']
+//             },
+//             {
+//                 name: 'file2',
+//                 dependencies: ['file1']
+//             },
+//             {
+//                 name: 'file3',
+//                 dependencies: ['file2']
+//             }
+//         ])
+//     )
+
+// })()
+
+
+// 对句子中的单词倒叙输出
+/**
+ * 对句子中的单词倒叙 并输出
+ * 注意 如果有特殊符号 ?!,:等 还要做特殊判断 可以利用正则
+ * @param {String} str 
+ * @returns 
+ */
+function reverseSentence(str) {
+
+    var words = str.split(' ');
+    var len = words.length;
+    for (let index = 0; index < len; index++) {
+        let arr = words[index].split('');
+        arr.reverse();
+        words[index] = arr.join('');
+    }
+    return words.join(' ')
+}
+
+(function() {
+    console.log('reverse sentence:');
+    var a = reverseSentence('ni hao ma hahah');
+    console.log('ni hao ma hahah');
+    console.log(a);
+
+
+    var str = ' sdfl sldkfj fg daflkgj   jksdhf sdfh wef  asf k';
+    console.log(str)
+    var str2 = str.replace(/\b\w+\b/g, function(word) {
+        let arr = word.split('');
+        arr.reverse();
+        return arr.join('');
+    })
+    console.log(str2)
 })()
