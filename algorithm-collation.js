@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-10 16:36:12
+ * @Last Modified time: 2018-03-11 10:55:49
  */
 
 /**
@@ -541,19 +541,104 @@ function reverseSentence(str) {
 }
 
 // 测试代码
-(function() {
-    console.log('reverse sentence:');
-    var a = reverseSentence('ni hao ma hahah');
-    console.log('ni hao ma hahah');
-    console.log(a);
+// (function() {
+//     console.log('reverse sentence:');
+//     var a = reverseSentence('ni hao ma hahah');
+//     console.log('ni hao ma hahah');
+//     console.log(a);
 
 
-    var str = ' sdfl sldkfj fg daflkgj   jksdhf sdfh wef  asf k';
-    console.log(str)
-    var str2 = str.replace(/\b\w+\b/g, function(word) {
-        let arr = word.split('');
-        arr.reverse();
-        return arr.join('');
+//     var str = ' sdfl sldkfj fg daflkgj   jksdhf sdfh wef  asf k';
+//     console.log(str)
+//     var str2 = str.replace(/\b\w+\b/g, function(word) {
+//         let arr = word.split('');
+//         arr.reverse();
+//         return arr.join('');
+//     })
+//     console.log(str2)
+// })()
+
+
+/**
+ * 求丑数，注意：丑数的素因子只有2、3、5才是丑数
+ * 丑数 乘以 丑数 还是丑数  利用这个原理 逐位增加
+ * @param {number} index 
+ * @returns 
+ */
+function GetUglyNumber_Solution(index) {
+    // write code here
+    if (index == 0) return 0
+    var uglys = [1];
+    var factor2 = 0,
+        factor3 = 0,
+        factor5 = 0;
+    for (var i = 1; i < index; i++) {
+
+        uglys[i] = Math.min(uglys[factor2] * 2, uglys[factor3] * 3, uglys[factor5] * 5);
+
+        // 同值合并  例如2*3 == 3*2 不会出现两个6 因为合并了
+        if (uglys[i] == uglys[factor2] * 2) factor2++;
+        if (uglys[i] == uglys[factor3] * 3) factor3++;
+        if (uglys[i] == uglys[factor5] * 5) factor5++;
+    }
+    return uglys;
+}
+
+// (function() {
+//     console.log('输出丑数：')
+//     console.log(GetUglyNumber_Solution(20));
+// })()
+
+
+function PrintMinNumber(numbers) {
+    // write code here
+    numbers.sort(function(a, b) {
+        var s1 = a + '' + b;
+        var s2 = b + '' + a;
+        for (var i = 0; i < s1.length; i++) {
+            if (s1.charAt(i) > s2.charAt(i)) {
+                return 1
+            } else if (s1.charAt(i) < s2.charAt(i)) {
+                return -1;
+            }
+
+        }
+        return 1
     })
-    console.log(str2)
+    var result = "";
+    numbers.map(function(num) {
+        result = result.concat(num)
+    })
+    return result;
+}
+// 利用int来判断会出现一个问题 就是数字大小溢出。
+// function PrintMinNumber2(numbers) {
+//     // write code here
+//     numbers.sort(function(a, b) {
+//         console.log(a + 'and' + b)
+//         var s1 = a + '' + b;
+//         var s2 = b + '' + a;
+//         var number1 = parseInt(s1);
+//         var number2 = parseInt(s2);
+
+//         // console.log(s1);
+//         // console.log(s2);
+//         if (number1 < number2) {
+//             return -1;
+//         } else {
+//             return 1;
+//         }
+//     })
+//     var result = "";
+//     numbers.map(function(num) {
+//         result = result.concat(num)
+//     })
+//     return result;
+// }
+
+(function() {
+    console.log(PrintMinNumber([321, 32, 320, 3201, 3203]))
+        // console.log(PrintMinNumber2([321, 32, 320, 3201, 3203]))
+    console.log(PrintMinNumber([12, 123, 122]))
+        // console.log(PrintMinNumber2([12, 123, 122]))
 })()
