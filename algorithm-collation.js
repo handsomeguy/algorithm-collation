@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-11 10:55:49
+ * @Last Modified time: 2018-03-13 16:06:47
  */
 
 /**
@@ -641,4 +641,41 @@ function PrintMinNumber(numbers) {
         // console.log(PrintMinNumber2([321, 32, 320, 3201, 3203]))
     console.log(PrintMinNumber([12, 123, 122]))
         // console.log(PrintMinNumber2([12, 123, 122]))
+})()
+
+
+// 判断数组是不是一个平衡二叉树的后序遍历结果
+function checkTranverse(arr) {
+    var root = arr.pop();
+    if (arr.length == 0) {
+        return true;
+    }
+    var len = arr.length;
+    var index = 0;
+    for (index = 0; index < len; index++) {
+        if (arr[index] > root) {
+            break;
+        }
+    }
+
+    if (checkArrayMatch(arr.slice(index), root)) {
+        return checkTranverse(arr.slice(0, index)) && checkTranverse(arr.slice(index))
+            // return true;
+    } else {
+        return false;
+    }
+
+}
+
+function checkArrayMatch(arr, root) {
+    return arr.every(function(ele) {
+        return ele > root;
+    })
+}
+
+// 测试代码
+(function() {
+
+    var a = [1, 4, 10, 18, 16, 9];
+    console.log(checkTranverse(a));
 })()
