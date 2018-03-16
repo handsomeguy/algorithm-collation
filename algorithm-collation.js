@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-13 16:06:47
+ * @Last Modified time: 2018-03-16 20:13:07
  */
 
 /**
@@ -674,8 +674,53 @@ function checkArrayMatch(arr, root) {
 }
 
 // 测试代码
-(function() {
+// (function() {
 
-    var a = [1, 4, 10, 18, 16, 9];
-    console.log(checkTranverse(a));
-})()
+//     var a = [1, 4, 10, 18, 16, 9];
+//     console.log(checkTranverse(a));
+
+
+//     var func = eval("(function parse(data) {\
+//                 console.log(this.b);\
+//                 return true;\
+//             })\
+//             ")
+
+//     var a = {
+//         b: 2
+//     };
+//     console.log(func);
+//     func.call(a);
+// })()
+
+
+
+
+// 快排代码实现
+// function quickSort(i, j, arr) {
+//     if (i >= j) return;
+//     var flag = arr[i];
+//     var stIndex = i;
+//     var endIndex = j;
+//     while (i < j) {
+//         while (arr[j] > flag) {
+//             j--;
+//         }
+//         arr[i] = arr[j];
+//         arr[j] = flag;
+//         while (arr[i] < flag) {
+//             i++;
+//         }
+//         arr[j] = arr[i];
+//         arr[i] = flag;
+//     }
+//     arr[i] = flag;
+//     quickSort(stIndex, i, arr);
+//     quickSort(i + 1, endIndex, arr);
+// }
+// 测试代码
+// (function() {
+//     var a = [1, 43, 5, 6, 7, 4, 54, 67];
+//     quickSort(0, a.length - 1, a);
+//     console.log(a);
+// })()

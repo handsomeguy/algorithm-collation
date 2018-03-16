@@ -3,8 +3,18 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
     <title>hello</title>
     <style>
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            overflow: hidden;
+        }
+        
         .hello {
             font-size: 20px;
             font-family: 'Courier New', Courier, monospace;
@@ -13,12 +23,78 @@
         .color {
             color: red;
         }
+        
+        header {
+            height: 30px;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            background-color: red;
+            width: 100%;
+        }
+        
+        footer {
+            height: 30px;
+            position: fixed;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
+            background-color: blue;
+        }
+        
+        .main {
+            background-color: green;
+            margin-top: 30px;
+            height: calc(100% - 60px);
+            overflow: auto;
+        }
     </style>
 </head>
 
 <body>
-    <div class="hello" onclick="tryCatch(event)">this is a test page,please press <span class="color">F12</span> to check the result in the console</div>
-    <script type="text/javascript">
+    <header>
+        这里是头部
+    </header>
+    <div class="main">
+        <div class="hello" onclick="tryCatch(event)">this is a test page,please press <span class="color">F12</span> to check the result in the console</div>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+        <p>主要内容</p>
+    </div>
+    <footer>这里是底部</footer>
+    <!-- <script type="text/javascript">
         function HasSubtree(pRoot1, pRoot2) {
             if (pRoot1 == null || pRoot2 == null) {
                 return false;
@@ -39,13 +115,18 @@
                 }
             }
         }
+    </script> -->
+
+    <script>
+        // window.onerror = function(error, uri, lineNumber, col, error) {
+        //     console.log(error, uri, lineNumber, col, error);
+        //     return true;
+        // }
+        // window.addEventListener('error', function(e, url, line, col, error) {
+        //     console.log(e);
+        // }, true);
     </script>
     <script type="text/javascript" src='./algorithm-collation.js'></script>
-    <script>
-        function tryCatch(e) {
-            console.log(this);
-        }
-    </script>
 </body>
 
 </html>
