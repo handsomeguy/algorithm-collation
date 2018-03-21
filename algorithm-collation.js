@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-16 20:13:07
+ * @Last Modified time: 2018-03-21 22:54:11
  */
 
 /**
@@ -724,3 +724,82 @@ function checkArrayMatch(arr, root) {
 //     quickSort(0, a.length - 1, a);
 //     console.log(a);
 // })()
+
+function _handleData(x, y, z, start, end) {
+    var plan_arr = [];
+
+    var start = start;
+    var now_value = start;
+
+    function judgePlanAandB(x, y, now_value) {
+        var valueA = x / 2;
+        var valueB = y / now_value
+        if (valueA < valueB) {
+            plan_arr.push({
+                plan: 'A',
+                price: x
+            })
+            now_value = now_value + 2;
+        } else {
+            plan_arr.push({
+                plan: 'B',
+                price: y
+            })
+            now_value = now_value * 2;
+        }
+    }
+
+    // 计算翻倍和回调的钱  比较A方案 选取方案
+    function judgePlanAandB_spc(x, y, z, now_value) {
+
+        var valueA = (end - now_value) / 2 * x;
+        var overflow_value = now_value * 2 - end;
+        var valueB = y + overflow_value / 2 * z;
+        if (valueA < valueB) {
+            plan_arr.push({
+                plan: 'A',
+                price: x
+            })
+            now_value = now_value + 2;
+        } else {
+            plan_arr.push({
+                plan: 'B',
+                price: y
+            })
+            now_value = now_value * 2;
+        }
+    }
+
+    function doPlanC(z) {
+        plan_arr.push({
+            plan: 'C',
+            price: z
+        })
+        now_value = now_value - 2;
+    }
+    // 当前value值不符合条件 继续调整
+    while (now_value !== end) {
+        // 增加策略判断 不超过总人气的策略判断
+        // 根据平均每人气花费来计算
+        if (now_value + 2 <= end && now_value * 2 <= end) {
+            judgePlanAandB(x, y, now_value)
+        } else if (now_value * 2 > end && now_value < end) {
+            judgePlanAandB_spc(x, y, z, now_value)
+        } else if (now_value > end) {
+            doPlanC(z);
+        }
+    }
+
+    var final_price = 0;
+    plan_arr.map(function(ele) {
+        final_price = parseFloat(ele.price) + final_price;
+    })
+
+    console.log(final_price);
+
+}
+
+(function() {
+    _handleData(2, 50, 1, 10, 100);
+
+})
