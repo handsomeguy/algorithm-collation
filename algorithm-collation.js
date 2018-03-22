@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-21 22:54:11
+ * @Last Modified time: 2018-03-22 11:18:42
  */
 
 /**
@@ -799,7 +799,28 @@ function _handleData(x, y, z, start, end) {
 
 }
 
-(function() {
-    _handleData(2, 50, 1, 10, 100);
+// (function() {
+//     _handleData(2, 50, 1, 10, 100);
 
-})
+// })
+
+
+function addTwoBigNumber(a, b) {
+    var arrA = a.split('');
+    var arrB = b.split('');
+    var lenA = a.length;
+    var lenB = b.length;
+    var result_arr = [];
+    var jinwei = 0;
+    for (var i = lenA - 1, j = lenB - 1; i >= 0 || j >= 0; i--, j--) {
+        let num = parseInt(arrA[i] || 0) + parseInt(arrB[j] || 0) + jinwei;
+        jinwei = num > 10 ? 1 : 0;
+        result_arr.push(num % 10)
+    }
+    console.log(result_arr.reverse().join(''))
+}
+
+
+(function() {
+    addTwoBigNumber('123123123', '43435354');
+})()
