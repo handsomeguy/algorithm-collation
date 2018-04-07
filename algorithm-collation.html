@@ -48,6 +48,14 @@
             height: calc(100% - 60px);
             overflow: auto;
         }
+        
+        #main #asdasd {
+            color: red;
+        }
+        
+        #main .class1 .class2 .class3 .class4 .class5 .class6 .class7 .class8 .class9 .class10 .class11 {
+            color: white;
+        }
     </style>
 </head>
 
@@ -55,43 +63,13 @@
     <header>
         这里是头部
     </header>
-    <div class="main">
+    <div class="main" id='main'>
         <div class="hello" onclick="tryCatch(event)">this is a test page,please press <span class="color">F12</span> to check the result in the console</div>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
-        <p>主要内容</p>
+        <div id='app'><input type="text" id='a'>
+            <span id='b'>asd</span>
+
+        </div>
+        <!-- <iframe src="./page2.html" frameborder="1" id='asdf3f'></iframe> -->
     </div>
     <footer>这里是底部</footer>
     <!-- <script type="text/javascript">
@@ -118,13 +96,40 @@
     </script> -->
 
     <script>
-        // window.onerror = function(error, uri, lineNumber, col, error) {
-        //     console.log(error, uri, lineNumber, col, error);
-        //     return true;
+        var dom = nodeToFragment(document.getElementById('app'));
+
+        console.log(dom);
+
+        function nodeToFragment(node) {
+            var flag = document.createDocumentFragment();
+            var child;
+            if (child = node.firstChild) {
+                console.log(child);
+                flag.appendChild(child);
+            }
+            return flag;
+        }
+        setTimeout(function() {
+            document.getElementById('app').appendChild(dom);
+        }, 2000)
+
+
+
+        // window.onload = function() {
+        //     document.getElementById('main').onclick = function() {
+        //         // var ifr = document.getElementById('asdf3f');
+        //         // console.log(asdf3f.contentWindow)
+        //         var ifr = window.open('./page2.html');
+        //         console.log(ifr);
+        //         setTimeout(function() {
+        //             ifr.postMessage('hello', '*');
+        //         }, 1000)
+        //     }
+        //     window.addEventListener('message', function(e) {
+        //         console.log(e.data); //hello world
+        //         console.log(e.source);
+        //     })
         // }
-        // window.addEventListener('error', function(e, url, line, col, error) {
-        //     console.log(e);
-        // }, true);
     </script>
     <script type="text/javascript" src='./algorithm-collation.js'></script>
 </body>

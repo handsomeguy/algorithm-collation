@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-03-26 20:40:30
+ * @Last Modified time: 2018-04-07 23:08:36
  */
 
 /**
@@ -697,107 +697,134 @@ function checkArrayMatch(arr, root) {
 
 
 // 快排代码实现
-// function quickSort(i, j, arr) {
-//     if (i >= j) return;
-//     var flag = arr[i];
-//     var stIndex = i;
-//     var endIndex = j;
-//     while (i < j) {
-//         while (arr[j] > flag) {
-//             j--;
-//         }
-//         arr[i] = arr[j];
-//         arr[j] = flag;
-//         while (arr[i] < flag) {
-//             i++;
-//         }
-//         arr[j] = arr[i];
-//         arr[i] = flag;
-//     }
-//     arr[i] = flag;
-//     quickSort(stIndex, i, arr);
-//     quickSort(i + 1, endIndex, arr);
-// }
-// 测试代码
-// (function() {
-//     var a = [1, 43, 5, 6, 7, 4, 54, 67];
-//     quickSort(0, a.length - 1, a);
-//     console.log(a);
-// })()
-
-function _handleData(x, y, z, start, end) {
-    var plan_arr = [];
-
-    var start = start;
-    var now_value = start;
-
-    function judgePlanAandB(x, y, now_value) {
-        var valueA = x / 2;
-        var valueB = y / now_value
-        if (valueA < valueB) {
-            plan_arr.push({
-                plan: 'A',
-                price: x
-            })
-            now_value = now_value + 2;
-        } else {
-            plan_arr.push({
-                plan: 'B',
-                price: y
-            })
-            now_value = now_value * 2;
+function quickSort(i, j, arr) {
+    if (i >= j) return;
+    var flag = arr[i];
+    var stIndex = i;
+    var endIndex = j;
+    while (i < j) {
+        while (arr[j] >= flag && i < j) {
+            j--;
         }
-    }
-
-    // 计算翻倍和回调的钱  比较A方案 选取方案
-    function judgePlanAandB_spc(x, y, z, now_value) {
-
-        var valueA = (end - now_value) / 2 * x;
-        var overflow_value = now_value * 2 - end;
-        var valueB = y + overflow_value / 2 * z;
-        if (valueA < valueB) {
-            plan_arr.push({
-                plan: 'A',
-                price: x
-            })
-            now_value = now_value + 2;
-        } else {
-            plan_arr.push({
-                plan: 'B',
-                price: y
-            })
-            now_value = now_value * 2;
+        arr[i] = arr[j];
+        // arr[j] = flag;
+        while (arr[i] <= flag && i < j) {
+            i++;
         }
+        arr[j] = arr[i];
+        // arr[i] = flag;
     }
-
-    function doPlanC(z) {
-        plan_arr.push({
-            plan: 'C',
-            price: z
-        })
-        now_value = now_value - 2;
-    }
-    // 当前value值不符合条件 继续调整
-    while (now_value !== end) {
-        // 增加策略判断 不超过总人气的策略判断
-        // 根据平均每人气花费来计算
-        if (now_value + 2 <= end && now_value * 2 <= end) {
-            judgePlanAandB(x, y, now_value)
-        } else if (now_value * 2 > end && now_value < end) {
-            judgePlanAandB_spc(x, y, z, now_value)
-        } else if (now_value > end) {
-            doPlanC(z);
-        }
-    }
-
-    var final_price = 0;
-    plan_arr.map(function(ele) {
-        final_price = parseFloat(ele.price) + final_price;
-    })
-
-    console.log(final_price);
-
+    arr[i] = flag;
+    quickSort(stIndex, i - 1, arr);
+    quickSort(i + 1, endIndex, arr);
 }
+
+
+var shellSort = (arr) => {
+    console.time('希尔排序耗时:');
+    let len = arr.length,
+        temp, gap = 1;
+    while (gap < len / 5) { // 动态定义间隔序列步长为 5
+        gap = gap * 5 + 1;
+    }
+    for (gap; gap > 0; gap = Math.floor(gap / 5)) {
+        for (let i = gap; i < len; i++) {
+            temp = arr[i];
+            let j;
+            for (j = i - gap; j >= 0 && arr[j] > temp; j -= gap) {
+                arr[j + gap] = arr[j];
+            }
+            arr[j + gap] = temp;
+        }
+    }
+    console.timeEnd('希尔排序耗时:');
+    console.log(arr);
+    return arr;
+}
+
+// 测试代码
+(function() {
+    var a = [1, 43, 5, 4, 5, 6, 7, 6, 4, 54, 67];
+    shellSort(a);
+    // quickSort(0, a.length - 1, a);
+    // console.log(a);
+})()
+
+
+
+// function _handleData(x, y, z, start, end) {
+//     var plan_arr = [];
+
+//     var start = start;
+//     var now_value = start;
+
+//     function judgePlanAandB(x, y, now_value) {
+//         var valueA = x / 2;
+//         var valueB = y / now_value
+//         if (valueA < valueB) {
+//             plan_arr.push({
+//                 plan: 'A',
+//                 price: x
+//             })
+//             now_value = now_value + 2;
+//         } else {
+//             plan_arr.push({
+//                 plan: 'B',
+//                 price: y
+//             })
+//             now_value = now_value * 2;
+//         }
+//     }
+
+//     // 计算翻倍和回调的钱  比较A方案 选取方案
+//     function judgePlanAandB_spc(x, y, z, now_value) {
+
+//         var valueA = (end - now_value) / 2 * x;
+//         var overflow_value = now_value * 2 - end;
+//         var valueB = y + overflow_value / 2 * z;
+//         if (valueA < valueB) {
+//             plan_arr.push({
+//                 plan: 'A',
+//                 price: x
+//             })
+//             now_value = now_value + 2;
+//         } else {
+//             plan_arr.push({
+//                 plan: 'B',
+//                 price: y
+//             })
+//             now_value = now_value * 2;
+//         }
+//     }
+
+//     function doPlanC(z) {
+//         plan_arr.push({
+//             plan: 'C',
+//             price: z
+//         })
+//         now_value = now_value - 2;
+//     }
+//     // 当前value值不符合条件 继续调整
+//     while (now_value !== end) {
+//         // 增加策略判断 不超过总人气的策略判断
+//         // 根据平均每人气花费来计算
+//         if (now_value + 2 <= end && now_value * 2 <= end) {
+//             judgePlanAandB(x, y, now_value)
+//         } else if (now_value * 2 > end && now_value < end) {
+//             judgePlanAandB_spc(x, y, z, now_value)
+//         } else if (now_value > end) {
+//             doPlanC(z);
+//         }
+//     }
+
+//     var final_price = 0;
+//     plan_arr.map(function(ele) {
+//         final_price = parseFloat(ele.price) + final_price;
+//     })
+
+//     console.log(final_price);
+
+// }
 
 // (function() {
 //     _handleData(2, 50, 1, 10, 100);
@@ -805,22 +832,243 @@ function _handleData(x, y, z, start, end) {
 // })
 
 
-function addTwoBigNumber(a, b) {
-    var arrA = a.split('');
-    var arrB = b.split('');
-    var lenA = a.length;
-    var lenB = b.length;
-    var result_arr = [];
-    var jinwei = 0;
-    for (var i = lenA - 1, j = lenB - 1; i >= 0 || j >= 0; i--, j--) {
-        let num = parseInt(arrA[i] || 0) + parseInt(arrB[j] || 0) + jinwei;
-        jinwei = num > 10 ? 1 : 0;
-        result_arr.push(num % 10)
+// function addTwoBigNumber(a, b) {
+//     var arrA = a.split('');
+//     var arrB = b.split('');
+//     var lenA = a.length;
+//     var lenB = b.length;
+//     var result_arr = [];
+//     var jinwei = 0;
+//     for (var i = lenA - 1, j = lenB - 1; i >= 0 || j >= 0; i--, j--) {
+//         let num = parseInt(arrA[i] || 0) + parseInt(arrB[j] || 0) + jinwei;
+//         jinwei = num > 10 ? 1 : 0;
+//         result_arr.push(num % 10)
+//     }
+//     console.log(result_arr.reverse().join(''))
+// }
+
+
+// (function() {
+//     addTwoBigNumber('123123123', '43435354');
+// })()
+
+
+var now_position = 'N';
+
+
+var pos_number = 0;
+
+function checkPosition(arr) {
+
+    arr.forEach(function(ele, i) {
+        if (ele == 'L') {
+            pos_number--;
+        } else if (ele == 'R') {
+            pos_number++;
+        }
+    })
+
+    var res = pos_number % 4;
+    if (res < 0) {
+        res = res + 4
     }
-    console.log(result_arr.reverse().join(''))
+    console.log(pos_number);
+    console.log(res);
+
+
+}
+
+function outputPos(number) {
+    switch (number) {
+        case 0:
+            print('N');
+            break;
+        case 1:
+            print('E');
+            break;
+        case 2:
+            print('S');
+            break;
+        case 3:
+            print('W');
+            break;
+    }
 }
 
 
-(function() {
-    addTwoBigNumber('123123123', '43435354');
-})()
+function handleNumber(st, end) {
+    var result = 0;
+    var res_arr = [];
+    var count = 0;
+    for (let index = 1; index <= st; index++) {
+        result = index + result;
+    }
+    if (result % 3 == 0) {
+        count++;
+    }
+    var round = end - st;
+    for (let index = st + 1; index <= end; index++) {
+        result = result + index;
+        if (result % 3 == 0) {
+            count++;
+        }
+    }
+    console.log(count)
+    return count;
+}
+
+function judgeArr(arr) {
+    var count = 0;
+    if (arr instanceof Array) {
+        arr.forEach(function(ele) {
+            if (ele % 3 == 0) {
+                count++;
+            }
+        })
+    }
+    return count;
+}
+
+// 根据题目  k <= x <= n 
+// y 根据条件约束 限制在余数 k2 到 x之间 ，如果x>k 则k到n皆可取值
+function handleNandK(n, k) {
+
+    var x = k;
+    var count = 0;
+    for (let x = k; x <= n; x++) {
+
+        if (x >= k) {
+            count = count + n - x;
+        }
+        // x == y
+        if (k == 0) {
+            count++;
+
+        }
+        for (let j = k + 1; j < x; j++) {
+            if (x % j >= k) {
+                count++;
+            }
+        }
+    }
+    console.log(count);
+    return count;
+
+}
+
+
+// 记录出现次数最多的子串
+// 函数如下
+
+function handleStr(originString) {
+    // 字符串总长度
+    var total_len = originString.length;
+    // 当前处理子串长度  之后会递增 3 4 5 ... 的子串
+    var now_process_len = 2;
+    // 结束处理子串长度  先缩减为n/2
+    // 当k长度子串 匹配t次  该数字更新为 n/t  （前提是能更新全局标记位whole_flag
+    var end_process_len = Math.floor(total_len / 2);
+
+    var whole_flag = {
+        son_str: '',
+        times: 0
+    }
+
+    // while循环  递增 2 3 4 ...子串
+    while (now_process_len <= end_process_len) {
+
+        // 截取所有长度为now_process_len 可能的子串
+        // 例如截取长度为2的所有字符串 放入arr
+        // 截取长度为3的所有字符串 放入arr   ....
+        let now_process_arr = [];
+        for (let index = 0; index < total_len - now_process_len; index++) {
+            now_process_arr.push(originString.slice(index, index + now_process_len));
+        }
+        console.log(now_process_arr);
+
+
+        var flag = {
+            son_str: '',
+            times: 0
+        }
+
+        // 利用正则 匹配次数  次数高的更新flag位
+        for (let i = 0; i < now_process_arr.length; i++) {
+            let reg = new RegExp(now_process_arr[i], 'g');
+            let match_times = originString.match(reg).length;
+            if (match_times > flag.times) {
+                flag = {
+                    son_str: now_process_arr[i],
+                    times: match_times
+                }
+            }
+        }
+        console.log(flag);
+
+        // 递增 2长度处理完 处理3长度子串 类推
+        now_process_len++;
+
+        // 如果当前子串最高flag位  高于全局位 更新全局
+        // 例如2子串最多4次    3子串最多有5次  更新全局标记位
+        // 同时更新end_process_len   缩减到n/5 作为结束位
+        if (flag.times >= whole_flag.times) {
+            whole_flag = flag;
+            end_process_len = Math.floor(total_len / flag.times);
+        }
+    }
+    // 得出结果
+    console.log(whole_flag)
+}
+
+
+// handleStr('abcsdfjkabcskdfabc')
+
+
+// (function() {
+//     handleNandK(5, 2)
+//         // handleNumber(2, 8)
+//         // checkPosition(['L', 'R', 'R', 'L', 'L', 'L', 'L', 'L', 'L', 'L']);
+// })()
+
+
+// (function() {
+
+//     var result = [];
+
+//     for (let i = 1; i <= 6; i++) {
+//         for (let j = 1; j <= 6; j++) {
+//             for (let k = 1; k <= 6; k++) {
+//                 for (let l = 1; l <= 6; l++) {
+//                     result.push(i + j + k + l);
+//                 }
+//             }
+//         }
+//     }
+
+//     console.log(result.length);
+//     var hashMap = {
+//         0: 0,
+//         1: 0,
+//         2: 0,
+//         3: 0,
+//         4: 0,
+//         5: 0,
+//         6: 0,
+//         7: 0
+//     };
+
+//     for (let index = 0; index < result.length; index++) {
+//         var key = result[index] % 8;
+//         hashMap[key]++;
+//     }
+
+//     var count = 0;
+//     for (var p in hashMap) {
+//         count = count + hashMap[p];
+//     }
+
+//     console.log(count);
+//     console.log(hashMap)
+
+
+// })()
