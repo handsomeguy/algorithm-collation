@@ -2,7 +2,7 @@
  * @Author: Jackson 
  * @Date: 2018-03-03 20:10:44 
  * @Last Modified by: Jackson
- * @Last Modified time: 2018-04-07 23:08:36
+ * @Last Modified time: 2018-04-16 17:53:14
  */
 
 /**
@@ -1072,3 +1072,68 @@ function handleStr(originString) {
 
 
 // })()
+
+
+
+
+function handleStr(originString) {
+    // 字符串总长度
+    var total_len = originString.length;
+    // 当前处理子串长度  之后会递增 3 4 5 ... 的子串
+    var now_process_len = 2;
+    // 结束处理子串长度  先缩减为n/2
+    // 当k长度子串 匹配t次  该数字更新为 n/t  （前提是能更新全局标记位whole_flag
+    var end_process_len = Math.floor(total_len / 2);
+
+    var whole_flag = {
+        son_str: '',
+        times: 0
+    }
+
+    // while循环  递增 2 3 4 ...子串
+    while (now_process_len <= end_process_len) {
+
+        // 截取所有长度为now_process_len 可能的子串
+        // 例如截取长度为2的所有字符串 放入arr
+        // 截取长度为3的所有字符串 放入arr   ....
+        let now_process_arr = [];
+        for (let index = 0; index < total_len - now_process_len; index++) {
+            now_process_arr.push(originString.slice(index, index + now_process_len));
+        }
+        console.log(now_process_arr);
+
+
+        var flag = {
+            son_str: '',
+            times: 0
+        }
+
+        // 利用正则 匹配次数  次数高的更新flag位
+        for (let i = 0; i < now_process_arr.length; i++) {
+            let reg = new RegExp(now_process_arr[i], 'g');
+            let match_times = originString.match(reg).length;
+            if (match_times > flag.times) {
+                flag = {
+                    son_str: now_process_arr[i],
+                    times: match_times
+                }
+            }
+        }
+        console.log(flag);
+
+        // 递增 2长度处理完 处理3长度子串 类推
+        now_process_len++;
+
+        // 如果当前子串最高flag位  高于全局位 更新全局
+        // 例如2子串最多4次    3子串最多有5次  更新全局标记位
+        // 同时更新end_process_len   缩减到n/5 作为结束位
+        if (flag.times >= whole_flag.times) {
+            whole_flag = flag;
+            end_process_len = Math.floor(total_len / flag.times);
+        }
+    }
+    // 得出结果
+    console.log(whole_flag)
+}
+
+handleStr('abcsdfjkabcskdfabc');
