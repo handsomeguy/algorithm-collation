@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-02-21 14:50:01
- * @LastEditTime: 2021-02-21 22:50:01
+ * @LastEditTime: 2021-02-22 01:14:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /algorithm-collation/0221.js
@@ -243,6 +243,9 @@ class StateMachine {
 }
 
 isMatch('', "c*c*")
+
+
+
 
 
 
